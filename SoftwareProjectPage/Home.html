@@ -3,6 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <title>Tweemo</title>
+	<style>
+		body {
+			background-color: white;
+		}
+		img.resize {
+			max-width:50%;
+			max-height:50%;
+		}
+		li {
+			display: inline;
+		}
+		nm {
+			display: inline;
+			font-size: larger;
+		}
+		a {
+			text-decoration: none;
+			color: black;
+		}
+		h2 {
+			position: relative;
+			left: 100px;
+			top: 150px;
+		}
+		.topnav {
+			background-color: black;
+			overflow: hidden;
+		}
+
+
+		.topnav a {
+			float: right;
+			color: #f2f2f2;
+			text-align: center;
+			padding: 14px 16px;
+			text-decoration: none;
+			font-size: 17px;
+		}
+		.topnav a:hover {
+			background-color: #ddd;
+			color: black;
+		}
+		.topnav a.active {
+			background-color: #4CAF50;
+			color: white;
+		}
+
+		.topnav nm {
+			float: left;
+			color: #f2f2f2;
+			text-align: center;
+			padding: 14px 16px;
+			text-decoration: aqua;
+			font-size: 17px;
+		}
+		.liquidFillGaugeText {
+			font-family: Helvetica;
+			font-weight: bold;
+		}
+
+	</style>
     <script>
         var positiveWordCount;
         var negativeWordCount;
@@ -47,70 +108,14 @@
         getData("most_positive_tweet.json");
         // getData("most_negative_words_in_tweets.json");
         // getData("most_positive_words_in_tweets.json");
-        </script>
-	<!--<script data-main="d3.layout.cloud.js" src="require.js">//require command</script>-->
+	</script>
+	<script data-main="d3.layout.cloud.js" src="require.js">//require command</script>
 	<script src="http://d3js.org/d3.v3.min.js" language="JavaScript"> //d3js connection js</script>
 	<script src="liquidFill.js" language="JavaScript"></script>
-	<!--<script src="d3.layout.cloud.js" language="JavaScript"></script>s-->
+	<script src="d3.layout.cloud.js" language="JavaScript"></script>s
+    <script src="word_counts.json" type="application/json"></script>
 </head>
-<style>
-    body {
-        background-color: white;
-    }
 
-    li {
-        display: inline;
-    }
-    nm {
-        display: inline;
-        font-size: larger;
-    }
-    a {
-        text-decoration: none;
-        color: black;
-    }
-
-	h2 {
-		position: relative;
-		left: 100px;
-        right: 100px;
-		top: 50px;
-	}
-
-    .topnav {
-        background-color: black;
-        overflow: hidden;
-    }
-    .topnav a {
-        float: right;
-        color: #f2f2f2;
-        text-align: center;
-        padding: 14px 16px;
-        text-decoration: none;
-        font-size: 17px;
-    }	
-    .topnav a:hover {
-        background-color: #ddd;
-        color: black;
-    }
-    .topnav a.active {
-        background-color: #4CAF50;
-        color: white;
-    }
-    .topnav nm {
-        float: left;
-        color: #f2f2f2;
-        text-align: center;
-        padding: 14px 16px;
-        text-decoration: aqua;
-        font-size: 17px;
-    }
-
-    .liquidFillGaugeText { 
-		font-family: Helvetica; 
-		font-weight: bold; 
-	}
-</style>
 	<body>
 		<div class="topnav">
 			<nm>Tweemo</nm>
@@ -119,17 +124,16 @@
 		</div>
 		
 		<h2>
-			<svg id="fillgauge1" width="20vw" height="500" >Percentage of positive Words</svg>
-			<svg id="fillgauge2" width="20vw" height="500" >Percentage of positive Words</svg>
-            <svg id="fillgauge3" width="20vw" height="500" >Percentage of Neutral Words</svg>
+			<svg id="fillgauge1" width="45vw" height="500" >Percentage of positive Tweets</svg>
+			<svg id="fillgauge2" width="45vw" height="500" >Number of positive Tweets</svg>
 
+			<p id = "Negative"></p>
+			<p id = "Positive"></p>
 			<script language="JavaScript">
-                var positiveWordPercentage = (positiveWordCount/totalWordCount) * 100;
-                var negativeWordPercentage = (negativeWordCount/totalWordCount) * 100;
-                var neutralWordPercentage = ((totalWordCount - (positiveWordCount + negativeWordCount)) / totalWordCount) * 100;
-
-                var gauge1 = loadLiquidFillGauge("fillgauge1", positiveWordPercentage);
-
+				var posper = (positiveWordCount/totalWordCount)*100;
+				var config = liquidFillGaugeDefaultSettings();
+				config.maxValue = 1;
+                var gauge1 = loadLiquidFillGauge("fillgauge1", posper, config);
                 var config1 = liquidFillGaugeDefaultSettings();
                 config1.circleColor = "#77d831";
                 config1.textColor = "#428421";
@@ -152,9 +156,13 @@
                 config2.displayPercent = true;
                 var gauge3 = loadLiquidFillGauge("fillgauge3", neutralWordPercentage, config2);
 
+                document.getElementById("Negative").innerHTML = negativeSentence;
+                document.getElementById("Positive").innerHTML = positiveSentence;
+
 			</script>
 			<br>
 			<br>
+
 			<br>
 			<br>
 			<!--<script>-->
@@ -193,7 +201,5 @@
                 <!--}-->
 			<!--</script>-->
 		</h2>
-
 	</body>
-	
 </html>
