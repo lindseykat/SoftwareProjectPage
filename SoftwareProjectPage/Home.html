@@ -52,6 +52,10 @@
 	<script src="http://d3js.org/d3.v3.min.js" language="JavaScript"> //d3js connection js</script>
 	<script src="liquidFill.js" language="JavaScript"></script>
 	<script src="d3.layout.cloud.js" language="JavaScript"></script>s
+	<script src="http://d3js.org/d3.v3.min.js" language="JavaScript"></script>
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="word_counts.json" type="application/json"></script>
+	<script src="liquidFill.js" language="JavaScript"></script>
 </head>
 <style>
     body {
@@ -181,5 +185,47 @@
 		</h2>
 
 
+	</body>
+	<body>
+		<div class="topnav">
+			<nm>Tweemo</nm>
+			<li><a href="Home.html">Home</a></li>
+			<li><a href="About.html">About</a></li>
+		</div>
+		
+		<h2>
+			<svg id="fillgauge1" width="45%" height="500" >Percentage of positive Tweets</svg>
+			<svg id="fillgauge2" width="45%" height="500" >Number of positive Tweets</svg>
+		</h2>
+
+		<script language="JavaScript">
+
+            var list = [];
+            var pos;
+            var neg;
+            var all;
+
+			$.getJSON('word_counts.json', function(data){
+                pos = data.positive_word_count;
+                neg = data.negative_word_count;
+                all = data.total_number_of_words;
+                console.log(pos);
+			});
+
+
+			var gauge1 = loadLiquidFillGauge("fillgauge1", 42);
+			var config1 = liquidFillGaugeDefaultSettings();
+			config1.circleColor = "#FF7777";
+			config1.textColor = "#FF4444";
+			config1.waveTextColor = "#FFAAAA";
+			config1.waveColor = "#FFDDDD";
+			config1.circleThickness = 0.2;
+			config1.textVertPosition = 0.2;
+			config1.waveAnimateTime = 1000;
+			config1.displayPercent = false;
+			var gauge2= loadLiquidFillGauge("fillgauge2", 22, config1);
+			var config2 = liquidFillGaugeDefaultSettings();
+			
+		</script>
 	</body>
 </html>
