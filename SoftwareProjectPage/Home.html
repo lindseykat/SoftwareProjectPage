@@ -3,6 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <title>Tweemo</title>
+    <script>
+        var positiveWordCount;
+        var negativeWordCount;
+        var totalWordCount;
+        var negativeSentence;
+        var positiveSentence;
+
+        function getData(jsonName) {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if(xhttp.readyState == 4 && xhttp.status == 200)
+                {
+                    var javaObj = JSON.parse(xhttp.response);
+                    if (jsonName == "word_counts.json") {
+                        positiveWordCount = javaObj.postive_word_count;
+                        negativeWordCount = javaObj.negative_word_count;
+                        totalWordCount = javaObj.total_number_of_words;
+                        console.log(positiveWordCount, negativeWordCount, totalWordCount);
+                    }
+                    else if (jsonName == "most_negative_tweet.json")
+                    {
+                        negativeSentence = javaObj.most_negative_tweet;
+                        console.log(negativeSentence);
+                    }
+                    else if (jsonName == "most_positive_tweet.json")
+                    {
+                        positiveSentence = javaObj.most_positive_tweet;
+                        console.log(positiveSentence);
+                    }
+                    // else if (jsonName == "most_negative_words_in_tweets.json")
+                    // {
+                    //
+                    // }
+                }
+            };
+            xhttp.open("GET", jsonName, true);
+            xhttp.send();
+        }
+
+        getData("word_counts.json");
+        getData("most_negative_tweet.json");
+        getData("most_positive_tweet.json");
+        // getData("most_negative_words_in_tweets.json");
+        // getData("most_positive_words_in_tweets.json");
+        </script>
 </head>
 <style>
     body {
